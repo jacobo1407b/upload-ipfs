@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "copi":"cp ./src/docs/swagger.json ./build/docs",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=production NODE_PATH=./build node build/server.js",
     "dev": "NODE_ENV=development NODE_PATH=./src nodemon src/server.ts",
-    "build": "rm -rf build/  && tsc"
+    "build": "rm -rf build/  && tsc && yarn copi"
   },
   "keywords": [],
   "author": "",
