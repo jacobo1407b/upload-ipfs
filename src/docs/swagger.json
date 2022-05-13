@@ -1,0 +1,298 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API REST para almacenar imagenes en IPFS\n",
+    "version": "1.0.0",
+    "title": "File IPFS",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "jacobohernandezmendieta7@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "tags": [
+    {
+      "name": "IPFS",
+      "description": "almacenamiento descentralizado"
+    }
+  ],
+  "paths": {
+    "/api/getfiles": {
+      "get": {
+        "tags": [
+          "files"
+        ],
+        "summary": "Obtener todos los archivos",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "file",
+            "type": "string",
+            "required": false,
+            "description": "tipo de archivo para filtrar los resultados"
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false,
+            "description": "por cual campo se desea ordenar los datos"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación correcta",
+            "schema": {
+              "$ref": "#/definitions/File"
+            }
+          },
+          "500": {
+            "description": "error del servidor",
+            "schema": {
+              "$ref": "#/definitions/Server"
+            }
+          }
+        }
+      }
+    },
+    "/api/get/types": {
+      "get": {
+        "tags": [
+          "types"
+        ],
+        "summary": "Obtener typos de archivos y cantidad",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación correcta",
+            "schema": {
+              "$ref": "#/definitions/Typado"
+            }
+          },
+          "500": {
+            "description": "error del servidor",
+            "schema": {
+              "$ref": "#/definitions/Server"
+            }
+          }
+        }
+      }
+    },
+    "/api/loadfile": {
+      "post": {
+        "tags": [
+          "load"
+        ],
+        "summary": "Cargar un archivo a IPFS",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "image",
+            "type": "file",
+            "description": "The file to upload."
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación correcta",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "$ref": "#/definitions/Files"
+                },
+                "msg": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "error del servidor",
+            "schema": {
+              "$ref": "#/definitions/Server"
+            }
+          }
+        }
+      }
+    },
+    "/api/update/info/{id}": {
+      "put": {
+        "tags": [
+          "actualizar info imagen"
+        ],
+        "summary": "Actualizar info de imagen",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true,
+            "description": "Numeric ID of the user to get"
+          },
+          {
+            "in": "body",
+            "name": "body update file",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación correcta",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "$ref": "#/definitions/Files"
+                },
+                "msg": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "error del servidor",
+            "schema": {
+              "$ref": "#/definitions/Server"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "File": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Files"
+          }
+        },
+        "msg": {
+          "type": "string"
+        }
+      }
+    },
+    "Files": {
+      "type": "object",
+      "properties": {
+        "typeFile": {
+          "type": "string"
+        },
+        "cid": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "uid": {
+          "type": "string"
+        },
+        "fecha": {
+          "type": "string"
+        },
+        "_id": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Files"
+      }
+    },
+    "Typado": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "string"
+              },
+              "_id": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "msg": {
+          "type": "string"
+        }
+      }
+    },
+    "Server": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "string"
+        },
+        "msg": {
+          "type": "object"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Más información sobre Swagger",
+    "url": "http://swagger.io"
+  },
+  "host": "localhost:3000",
+  "basePath": "/api"
+}
