@@ -293,6 +293,6 @@
     "description": "Más información sobre Swagger",
     "url": "http://swagger.io"
   },
-  "host": "localhost:3000",
+  "host": "https://ipfs-app.us-south.cf.appdomain.cloud",
   "basePath": "/api"
 }
